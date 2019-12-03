@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.jnu.i_time.ui.home.HomeFragment"
+        android:label="@string/menu_home"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/nav_live"
+        android:name="com.jnu.i_time.ui.live.LiveFragment"
+        android:label="@string/menu_live"
+        tools:layout="@layout/fragment_live" >
+        <action
+            android:id="@+id/action_nav_live_self"
+            app:destination="@id/nav_live" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_work"
+        android:name="com.jnu.i_time.ui.work.workFragment"
+        android:label="@string/menu_work"
+        tools:layout="@layout/fragment_work" />
+
+    <fragment
+        android:id="@+id/nav_anniversary"
+        android:name="com.jnu.i_time.ui.anniversary.AnniversaryFragment"
+        android:label="@string/menu_anniversary"
+        tools:layout="@layout/fragment_anniversary" />
+
+    <fragment
+        android:id="@+id/nav_share"
+        android:name="com.jnu.i_time.ui.share.ShareFragment"
+        android:label="@string/menu_share"
+        tools:layout="@layout/fragment_share" />
+
+    <fragment
+        android:id="@+id/nav_send"
+        android:name="com.jnu.i_time.ui.send.SendFragment"
+        android:label="@string/menu_send"
+        tools:layout="@layout/fragment_send" />
+</navigation>

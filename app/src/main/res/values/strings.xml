@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">i_time</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="theme_settings">Set Theme</string>
+    <string name="language_settings">Set Language</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_live">Live</string>
+    <string name="menu_work">Work</string>
+    <string name="menu_anniversary">Anniversary</string>
+    <string name="menu_share">Share</string>
+    <string name="menu_send">Send</string>
+
+</resources>
