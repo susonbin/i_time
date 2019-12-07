@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="none">
+        <item
+            android:id="@+id/day_mess"
+            android:icon="@drawable/ic_schedule_black_24dp"
+            android:title="tltle" />
+        <item
+            android:id="@+id/day_time"
+            android:icon="@drawable/ic_autorenew_black_24dp"
+            android:title="倒计时" />
+    </group>
+
+    <item android:title="Option">
+        <menu>
+            <item
+                android:id="@+id/day_alarm"
+                android:icon="@drawable/ic_alarm_black_24dp"
+                android:title="Notification"
+                app:actionLayout="@layout/switch_item"
+                app:showAsAction="always" />
+            <item
+                android:id="@+id/day_calendar"
+                android:icon="@drawable/ic_date_range_black_24dp"
+                android:title="Show in calendar"
+                app:actionLayout="@layout/switch_item"
+                app:showAsAction="always" />
+            <item
+                android:id="@+id/day_IconShortCut"
+                android:icon="@drawable/ic_view_list_black_24dp"
+                android:title="IconShortCut"
+                app:actionLayout="@layout/switch_item"
+                app:showAsAction="always" />
+        </menu>
+    </item>
+</menu>

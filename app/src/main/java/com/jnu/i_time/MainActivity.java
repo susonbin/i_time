@@ -14,7 +14,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationView;
-import com.jnu.i_time.ui.home.DayArrayAdapter;
+import com.jnu.i_time.data.Day;
 
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -28,6 +28,9 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static final int REQUEST_CODE_NEW_DAY = 900;
+    public static final int REQUEST_CODE_UPDATE_DAY = 901;
+
     private AppBarConfiguration mAppBarConfiguration;
     private static ArrayList<Day> days;
     private static Context context;
@@ -38,10 +41,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         days=new ArrayList<>();//初始化-->结合持久化
-        days.add(new Day(2019,12,1,new Day.Period(1,0,0)));
-        days.add(new Day(2019,12,1,new Day.Period(1,0,0)));
-        days.add(new Day(2019,12,1,new Day.Period(1,0,0)));
-        days.add(new Day(2019,12,5,new Day.Period(1,0,0)));
+        days.add(new Day(1,"Birthday",R.drawable.backgroud_1,2019,12,1,new Day.Period(1,0,0)));
+        days.add(new Day(1,"Middlde Day",R.drawable.backgroud_2,2019,12,1,new Day.Period(1,0,0)));
+        days.add(new Day(1,"升国旗",R.drawable.backgroud_1,2019,12,1,new Day.Period(1,0,0)));
+        days.add(new Day(1,"母亲节",R.drawable.backgroud_1,2019,12,5,new Day.Period(1,0,0)));
 
         context=this;
 
@@ -60,8 +63,8 @@ public class MainActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_live, R.id.nav_work,
-                R.id.nav_anniversary, R.id.nav_share, R.id.nav_send)
+                R.id.nav_home, R.id.nav_anniversary, R.id.nav_live,
+                R.id.nav_work, R.id.nav_share, R.id.nav_send)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
@@ -72,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(R.menu.activity_day_mess_menu, menu);
         return true;
     }
 

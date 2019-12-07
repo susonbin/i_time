@@ -3,7 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fadeScrollbars="true"
+    android:fadingEdge="horizontal|vertical"
+    android:fitsSystemWindows="true"
+    android:requiresFadingEdge="horizontal">
+
 
     <TextView
         android:id="@+id/text_home"
@@ -20,12 +25,16 @@
 
     <ListView
         android:id="@+id/button_list"
-        android:layout_width="291dp"
-        android:layout_height="356dp"
+        android:layout_width="405dp"
+        android:layout_height="wrap_content"
+        android:divider="@android:drawable/list_selector_background"
+        android:dividerHeight="-8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_home"
-        app:layout_constraintVertical_bias="0.554" />
+        app:layout_constraintVertical_bias="0.0" />
+    >
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,6 +9,10 @@
             android:icon="@drawable/ic_menu_camera"
             android:title="@string/menu_home" />
         <item
+            android:id="@+id/nav_anniversary"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="@string/menu_anniversary" />
+        <item
             android:id="@+id/nav_live"
             android:icon="@drawable/ic_menu_gallery"
             android:title="@string/menu_live" />
@@ -16,10 +20,6 @@
             android:id="@+id/nav_work"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="@string/menu_work" />
-        <item
-            android:id="@+id/nav_anniversary"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="@string/menu_anniversary" />
     </group>
 
     <item android:title="Communicate">
