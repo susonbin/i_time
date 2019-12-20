@@ -31,7 +31,8 @@ public class HomeViewModel extends ViewModel {
         mText.setValue("This is home fragment");
 
         mAdapter=new MutableLiveData<>();
-        mAdapter.setValue(new DayArrayAdapter(context,R.layout.day_item/*具体的试图*/, days_of_home));
+        mAdapter.setValue(new DayArrayAdapter(context,R.layout.day_item/*具体的试图*/, MainActivity.getDays()));
+
     }
 
     public LiveData<String> getText() {
@@ -41,4 +42,7 @@ public class HomeViewModel extends ViewModel {
         return mAdapter;
     }
 
+    public ArrayList<Day> getDays_of_home() {
+        return days_of_home;
+    }
 }

@@ -39,4 +39,7 @@ public class workViewModel extends ViewModel {
     public LiveData<DayArrayAdapter> getAdapter(){
         return mAdapter;
     }
+    public ArrayList<Day> getDays_of_work() {
+        return days_of_work;
+    }
 }

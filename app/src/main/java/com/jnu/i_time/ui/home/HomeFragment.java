@@ -17,10 +17,12 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.jnu.i_time.DayMeaasgeActivity;
+import com.jnu.i_time.DayMessageActivity;
 import com.jnu.i_time.MainActivity;
 import com.jnu.i_time.R;
 import com.jnu.i_time.data.DayArrayAdapter;
+
+import static android.app.Activity.RESULT_OK;
 
 
 public class HomeFragment extends Fragment {
@@ -50,15 +52,41 @@ public class HomeFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(MainActivity.getContext(),"点击",Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(MainActivity.getContext(), DayMeaasgeActivity.class);
+                Intent intent = new Intent(MainActivity.getContext(), DayMessageActivity.class);
                 Log.d("id：",""+position);
                 intent.putExtra("dayId",position);
                 startActivityForResult(intent, MainActivity.REQUEST_CODE_UPDATE_DAY);
             }
         });
-
-
-
         return view;
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode){
+            case MainActivity.REQUEST_CODE_UPDATE_DAY :{
+                if(resultCode==RESULT_OK){
+                    //String tag="asdfghjkl";
+                    //Log.v(tag,"inreturn");
+                    int id=data.getIntExtra("id",0);
+                    boolean delete=data.getBooleanExtra("delete",false);
+                    if(delete){
+                        homeViewModel.getDays_of_home().remove(id);
+                    }
+                    homeViewModel.getAdapter().observe(this, new Observer<DayArrayAdapter>() {
+                        @Override
+                        public void onChanged(@Nullable DayArrayAdapter adapter) {
+                            adapter.notifyDataSetChanged();
+                        }
+                    });
+                }
+                break;
+            }
+
+        }
+
+
+    }
+
 }

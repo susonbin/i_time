@@ -39,4 +39,7 @@ public class LiveViewModel extends ViewModel {
     public LiveData<DayArrayAdapter> getAdapter(){
         return mAdapter;
     }
+    public ArrayList<Day> getDays_of_live() {
+        return days_of_live;
+    }
 }

@@ -1,13 +1,17 @@
 package com.jnu.i_time;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
+import androidx.annotation.Nullable;
+import androidx.lifecycle.Observer;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -15,6 +19,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationView;
 import com.jnu.i_time.data.Day;
+import com.jnu.i_time.data.DayArrayAdapter;
 
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -45,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
         days.add(new Day(1,"Middlde Day",R.drawable.backgroud_2,2019,12,1,new Day.Period(1,0,0)));
         days.add(new Day(1,"升国旗",R.drawable.backgroud_1,2019,12,1,new Day.Period(1,0,0)));
         days.add(new Day(1,"母亲节",R.drawable.backgroud_1,2019,12,5,new Day.Period(1,0,0)));
+        days.remove(0);
 
         context=this;
 
@@ -55,7 +61,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //修改成转移到新建activity,并实现activity之间的数据交流，再更新fragment
-
+                Intent intent = new Intent(context, NewOrUpdateDayActivity.class);
+                startActivityForResult(intent, MainActivity.REQUEST_CODE_NEW_DAY);
             }
         });
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -75,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.activity_day_mess_menu, menu);
+        getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
@@ -104,6 +111,21 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode){
+            case MainActivity.REQUEST_CODE_NEW_DAY :{
+                if(resultCode==RESULT_OK){
+                    String name=data.getStringExtra("name");
+
+                    days.add(new Day(1,name,R.drawable.backgroud_1,2019,12,5,new Day.Period(1,0,0)));
+                }
+                break;
+            }
+        }
     }
 
     public static ArrayList<Day> getDays() {

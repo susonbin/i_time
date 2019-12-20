@@ -28,8 +28,6 @@ public class DayArrayAdapter extends ArrayAdapter<Day> {
         resourceId=resource;
     }
 
-
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {

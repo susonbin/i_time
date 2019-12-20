@@ -39,5 +39,7 @@ public class AnniversaryViewModel extends ViewModel {
     public LiveData<DayArrayAdapter> getAdapter(){
         return mAdapter;
     }
-
+    public ArrayList<Day> getDays_of_anniversary() {
+        return days_of_anniversary;
+    }
 }
