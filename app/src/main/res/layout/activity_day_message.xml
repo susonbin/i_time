@@ -12,15 +12,9 @@
         android:orientation="vertical">
 
         <FrameLayout
+            android:id="@+id/background"
             android:layout_width="match_parent"
             android:layout_height="250dp">
-
-            <ImageView
-                android:id="@+id/picture"
-                android:layout_width="match_parent"
-                android:layout_height="250dp"
-                app:srcCompat="@drawable/backgroud_1"
-                tools:srcCompat="@tools:sample/avatars" />
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar_mess"
@@ -35,7 +29,7 @@
         </FrameLayout>
 
         <com.google.android.material.navigation.NavigationView
-            android:id="@+id/edit_menu"
+            android:id="@+id/mess_menu"
             android:layout_width="409dp"
             android:layout_height="479dp"
             app:menu="@menu/activity_day_mess_menu" />

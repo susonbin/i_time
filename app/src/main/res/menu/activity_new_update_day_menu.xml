@@ -10,12 +10,16 @@
             android:icon="@drawable/ic_schedule_black_24dp"
             android:title="Date" />
         <item
-            android:id="@+id/repeat"
-            android:icon="@drawable/ic_autorenew_black_24dp"
-            android:title="repeat" />
-        <item
             android:id="@+id/picture"
             android:icon="@drawable/ic_image_black_24dp"
-            android:title="picture" />
+            android:title="Picture" />
+        <item
+            android:id="@+id/type"
+            android:icon="@drawable/ic_label_black_24dp"
+            android:title="Label" />
+        <item
+            android:id="@+id/repeat"
+            android:icon="@drawable/ic_autorenew_black_24dp"
+            android:title="Repeat" />
     </group>
 </menu>

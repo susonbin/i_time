@@ -70,7 +70,7 @@ public class workFragment extends Fragment {
                     int id=data.getIntExtra("id",0);
                     boolean delete=data.getBooleanExtra("delete",false);
                     if(delete){
-                        workViewModel.getDays_of_home().remove(id);
+                        workViewModel.getDays_of_work().remove(id);
                     }
                     workViewModel.getAdapter().observe(this, new Observer<DayArrayAdapter>() {
                         @Override

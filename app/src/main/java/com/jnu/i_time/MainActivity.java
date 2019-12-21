@@ -1,11 +1,19 @@
 package com.jnu.i_time;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,6 +38,7 @@ import android.view.Menu;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
     private static ArrayList<Day> days;
     private static Context context;
+    private static Activity activity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,13 +56,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         days=new ArrayList<>();//初始化-->结合持久化
-        days.add(new Day(1,"Birthday",R.drawable.backgroud_1,2019,12,1,new Day.Period(1,0,0)));
-        days.add(new Day(1,"Middlde Day",R.drawable.backgroud_2,2019,12,1,new Day.Period(1,0,0)));
-        days.add(new Day(1,"升国旗",R.drawable.backgroud_1,2019,12,1,new Day.Period(1,0,0)));
-        days.add(new Day(1,"母亲节",R.drawable.backgroud_1,2019,12,5,new Day.Period(1,0,0)));
-        days.remove(0);
 
         context=this;
+        activity=this;
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -120,17 +126,34 @@ public class MainActivity extends AppCompatActivity {
             case MainActivity.REQUEST_CODE_NEW_DAY :{
                 if(resultCode==RESULT_OK){
                     String name=data.getStringExtra("name");
-
-                    days.add(new Day(1,name,R.drawable.backgroud_1,2019,12,5,new Day.Period(1,0,0)));
+                    String description=data.getStringExtra("description");
+                    Calendar target=(Calendar) data.getSerializableExtra("newTarget");
+                    Drawable picture=new BitmapDrawable(getResizePhoto(data.getStringExtra("newPicturePath")));
+                    int period=data.getIntExtra("newPeriod",0);
+                    int type=data.getIntExtra("newType",0);
+                    days.add(new Day(type,name,picture,target,period));
                 }
                 break;
             }
         }
     }
 
+    public static Bitmap getResizePhoto(String ImagePath){
+        if (ImagePath!=null){
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inJustDecodeBounds = true;
+            BitmapFactory.decodeFile(ImagePath,options);
+            double ratio = Math.max(options.outWidth*1.0d/1024f,options.outHeight*1.0d/1024);
+            options.inSampleSize = (int) Math.ceil(ratio);
+            options.inJustDecodeBounds= false;
+            Bitmap bitmap=BitmapFactory.decodeFile(ImagePath,options);
+            return bitmap;
+        }
+        return null;
+    }
     public static ArrayList<Day> getDays() {
         return days;
     }
     public static Context getContext(){ return context; }
-
+    public static Activity getActivity(){ return activity; }
 }

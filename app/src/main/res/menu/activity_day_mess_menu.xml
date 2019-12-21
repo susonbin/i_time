@@ -6,7 +6,7 @@
 
     <group android:checkableBehavior="none">
         <item
-            android:id="@+id/day_mess"
+            android:id="@+id/day_name"
             android:icon="@drawable/ic_schedule_black_24dp"
             android:title="tltle" />
         <item

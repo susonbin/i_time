@@ -37,7 +37,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/textView_message"
+            android:id="@+id/textView_name"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:layout_weight="1"

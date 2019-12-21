@@ -1,124 +1,119 @@
 package com.jnu.i_time.data;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 
-public class Day {
+public class Day implements Serializable{
     //一个目标日
     //周期
     //当现在日期超过目标日变为已经
     //当周期结束此时按照周期改变目标日，再判断
+    public static final int TypeDefault=0;
     public static final int Anniversary=1;
-    public static final int live=2;
-    public static final int work=3;
+    public static final int Live=2;
+    public static final int Work=3;
 
-    private String message;
+    private String name;
     private int type;
-    private int pictureId;
-    private int year;
-    private int month;
-    private int day;
+    private Drawable picture;
+    private Calendar target;
+    private boolean alarm;
+    private String description;
+    private int period;
 
-    public static class Period {
-        int year;
-        int month;
-        int day;
-
-        public Period(int year, int month, int day) {
-            this.year = year;
-            this.month = month;
-            this.day = day;
-        }
-    }
-    private Period period;
-    private long interval;
-
-    public Day(int type,String message,int pictureId,int year, int month, int day, Period period) {
+    public Day(int type, String name, Drawable picture, Calendar target,int period) {
         this.type = type;
-        this.message=message;
-        this.pictureId=pictureId;
-        this.year = year;
-        this.month = month;
-        this.day = day;
-        this.period = period;
+        this.name = name;
+        this.picture=picture;
+        this.target=target;
+        this.period=period;
+        this.alarm=false;//默认为不提醒
+
     }
 
-    public int getYear() {
-        return year;
+    public boolean isAlarm() {
+        return alarm;
     }
 
-    public void setYear(int year) {
-        this.year = year;
+    public void setAlarm(boolean alarm) {
+        this.alarm = alarm;
     }
 
-    public int getMonth() {
-        return month;
+    public Calendar getTarget() {
+        return target;
+    }
+    public void setTarget(Calendar target) {
+        this.target = target;
     }
 
-    public void setMonth(int month) {
-        this.month = month;
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public int getDay() {
-        return day;
+    public Drawable getPicture() {
+        return picture;
+    }
+    public void setPicture(Drawable picture){
+        this.picture=picture;
     }
 
-    public void setDay(int day) {
-        this.day = day;
-    }
-
-    public Period getPeriod() {
-        return period;
-    }
-
-    public void setPeriod(Period period) {
-        this.period = period;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-    public int getPictureId() {
-        return pictureId;
-    }
     public int getType() {
         return type;
     }
-
     public void setType(int type) {
         this.type = type;
     }
 
-    public void setPictureId(int pictureId) {
-        this.pictureId = pictureId;
+    public int getPeriod() {
+        return period;
+    }
+    public void setPeriod(int period) {
+        this.period = period;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public void changeTargetDay(){
-        if(interval==0){
-            year+= period.year;
-            month+= period.month;
-            day+= period.day;
+        if(getSub().getTimeInMillis()==0){
+            Calendar calendar= Calendar.getInstance();
+
+            calendar.setTime(new Date((long)(period*(1000*60*60*24))));
+            long pTime=calendar.getTimeInMillis();
+
+            long time=target.getTimeInMillis()+pTime;
+            target.setTime(new Date(time));
         }
     }
 
-    public void setInterval(){
-
-    }
-    public long getInterval(){
+    public Calendar getSub(){
         Calendar calendar= Calendar.getInstance();
 
         calendar.setTime(new Date());
         long nTime=calendar.getTimeInMillis();
 
-        calendar.set(year,month-1,day);
-        long time=calendar.getTimeInMillis();
+        long time=target.getTimeInMillis();
 
-        long subDay=(time-nTime)/(1000*60*60*24);
-        interval=subDay;
-        return interval;
+        long sub=time-nTime;
+        calendar.setTime(new Date(sub));
+        return calendar;
+    }
+    public String getStringType(){
+        if(type==0)return "type";
+        if(type==1)return "Anniversary";
+        if(type==2)return "live";
+        if(type==3)return "work";
+        return "";
     }
 }
