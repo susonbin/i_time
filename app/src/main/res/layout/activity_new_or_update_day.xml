@@ -9,8 +9,7 @@
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="0dp"
-        android:layout_height="259dp"
-        android:background="@color/colorPrimary"
+        android:layout_height="280dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -19,83 +18,98 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.003">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/new_update_pitcure"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar_new_update"
+            <ImageView
+                android:id="@+id/new_update_picture"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#00000000"
-                android:fitsSystemWindows="true"
-                android:minHeight="?attr/actionBarSize"
-                app:navigationIcon="@drawable/ic_arrow_back_black_24dp"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-                tools:ignore="MissingConstraints" />
+                android:layout_height="match_parent"
+                android:scaleType="fitXY"
+                app:srcCompat="?attr/colorPrimary"
+                tools:srcCompat="@tools:sample/avatars" />
 
-            <TextView
-                android:id="@+id/name"
-                android:layout_width="60dp"
-                android:layout_height="30dp"
-                android:layout_marginTop="28dp"
-                android:layout_marginBottom="172dp"
-                android:gravity="center|left"
-                android:text="Name"
-                android:textColor="@android:color/black"
-                android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.159"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintVertical_bias="0.0" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-            <EditText
-                android:id="@+id/name_editText"
-                android:layout_width="300dp"
-                android:layout_height="45dp"
-                android:ems="10"
-                android:inputType="textPersonName"
-                android:text="Name"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/name"
-                app:layout_constraintVertical_bias="0.0" />
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar_new_update"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#00000000"
+                    android:fitsSystemWindows="true"
+                    android:minHeight="?attr/actionBarSize"
+                    app:navigationIcon="@drawable/ic_arrow_back_black_24dp"
+                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                    app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                    tools:ignore="MissingConstraints" />
 
-            <TextView
-                android:id="@+id/description"
-                android:layout_width="108dp"
-                android:layout_height="29dp"
-                android:gravity="center|left"
-                android:text="Description"
-                android:textColor="@android:color/black"
-                android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.184"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/name_editText"
-                app:layout_constraintVertical_bias="0.191" />
+                <TextView
+                    android:id="@+id/name"
+                    android:layout_width="60dp"
+                    android:layout_height="30dp"
+                    android:layout_marginBottom="168dp"
+                    android:gravity="center|left"
+                    android:text="Name"
+                    android:textColor="@android:color/white"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.159"
+                    app:layout_constraintStart_toStartOf="parent" />
 
-            <EditText
-                android:id="@+id/description_editText"
-                android:layout_width="300dp"
-                android:layout_height="45dp"
-                android:ems="10"
-                android:inputType="textPersonName"
-                android:text="Name"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.504"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/description"
-                app:layout_constraintVertical_bias="0.0" />
+                <EditText
+                    android:id="@+id/name_editText"
+                    android:layout_width="325dp"
+                    android:layout_height="47dp"
+                    android:ems="10"
+                    android:hint="  Birthday,festival,exam..."
+                    android:inputType="textPersonName"
+                    android:textColor="@android:color/white"
+                    android:textColorHint="@color/mr_dynamic_dialog_icon_dark"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.651"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/name"
+                    app:layout_constraintVertical_bias="0.0" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <TextView
+                    android:id="@+id/description"
+                    android:layout_width="108dp"
+                    android:layout_height="29dp"
+                    android:gravity="center|left"
+                    android:text="Description"
+                    android:textColor="@android:color/white"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.184"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/name_editText"
+                    app:layout_constraintVertical_bias="0.191" />
+
+                <EditText
+                    android:id="@+id/description_editText"
+                    android:layout_width="325dp"
+                    android:layout_height="45dp"
+                    android:layout_marginBottom="16dp"
+                    android:ems="10"
+                    android:hint="  Note,goals,motto..."
+                    android:inputType="textPersonName"
+                    android:textColor="@android:color/white"
+                    android:textColorHint="@color/mr_dynamic_dialog_icon_dark"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.651"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/name_editText"
+                    app:layout_constraintVertical_bias="0.766" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </FrameLayout>
 
     </LinearLayout>
 

@@ -24,7 +24,7 @@ public class workViewModel extends ViewModel {
     public workViewModel() {
 
         context= MainActivity.getContext();
-        days_of_work =MainActivity.getDays();
+        days_of_work =MainActivity.getDays(Day.Work);
 
         mText = new MutableLiveData<>();
         mText.setValue("This is work fragment");

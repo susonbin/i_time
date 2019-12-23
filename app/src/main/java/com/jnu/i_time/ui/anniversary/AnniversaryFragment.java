@@ -2,6 +2,8 @@ package com.jnu.i_time.ui.anniversary;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +23,7 @@ import com.jnu.i_time.DayMessageActivity;
 import com.jnu.i_time.MainActivity;
 import com.jnu.i_time.R;
 import com.jnu.i_time.data.DayArrayAdapter;
+import com.jnu.i_time.ui.home.HomeFragment;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -32,15 +35,8 @@ public class AnniversaryFragment extends Fragment {
         anniversaryViewModel = ViewModelProviders.of(this).get(AnniversaryViewModel.class);
         View view = inflater.inflate(R.layout.fragment_anniversary, container, false);
 
-        final TextView textView = view.findViewById(R.id.text_anniversary);
         final ListView listView = view.findViewById(R.id.button_list);
 
-        anniversaryViewModel.getText().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
         anniversaryViewModel.getAdapter().observe(this, new Observer<DayArrayAdapter>() {
             @Override
             public void onChanged(@Nullable DayArrayAdapter adapter) {
@@ -52,12 +48,13 @@ public class AnniversaryFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(MainActivity.getContext(),"点击",Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(MainActivity.getContext(), DayMessageActivity.class);
-                Log.d("id：",""+position);
-                intent.putExtra("dayId",position);
+                //Log.d("id：",""+position);
+                intent.putExtra("dayId",anniversaryViewModel.getDays_of_anniversary().get(position).getId());
                 startActivityForResult(intent, MainActivity.REQUEST_CODE_UPDATE_DAY);
 
             }
         });
+
         return view;
     }
 
@@ -72,7 +69,10 @@ public class AnniversaryFragment extends Fragment {
                     int id=data.getIntExtra("id",0);
                     boolean delete=data.getBooleanExtra("delete",false);
                     if(delete){
-                        anniversaryViewModel.getDays_of_anniversary().remove(id);
+                        //Log.d("aftdele",""+MainActivity.getDays().size());
+                        MainActivity.getDays().remove( MainActivity.getIdFindDay().get(id));
+                        //Log.d("aftdele",""+MainActivity.getDays().size());
+                        MainActivity.getIdFindDay().remove(id);
                     }
                     anniversaryViewModel.getAdapter().observe(this, new Observer<DayArrayAdapter>() {
                         @Override

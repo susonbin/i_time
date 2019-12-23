@@ -1,11 +1,8 @@
 package com.jnu.i_time;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.constraintlayout.widget.Constraints;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
@@ -18,15 +15,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
@@ -42,6 +36,7 @@ import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 import com.jnu.i_time.data.Day;
+import com.jnu.i_time.data.ImageFilter;
 
 
 import java.util.Calendar;
@@ -55,12 +50,11 @@ public class NewOrUpdateDayActivity extends AppCompatActivity {
     private TextView description;
     private EditText nameEdit;
     private EditText descriptionEdit;
-    private ConstraintLayout picture;
+    private ImageView picture;
     private Calendar newTarget;
     private String newPicturePath;
-    private int newPeriod;
-    private int newType;
-    private String stringType;
+    private int newPeriod=-1;
+    private int newType=0;
     private NavigationView edit_menu;
 
 
@@ -87,22 +81,32 @@ public class NewOrUpdateDayActivity extends AppCompatActivity {
         description=findViewById(R.id.description);
         nameEdit=findViewById(R.id.name_editText);
         descriptionEdit=findViewById(R.id.description_editText);
-        picture=findViewById(R.id.new_update_pitcure);
+        picture=findViewById(R.id.new_update_picture);
         edit_menu = findViewById(R.id.edit_menu);
-
+        newTarget=Calendar.getInstance();
 
         dayID=getIntent().getIntExtra("dayID",-1);
 
         if(dayID>=0){
-            nameEdit.setText(MainActivity.getDays().get(dayID).getName());
-            descriptionEdit.setText(MainActivity.getDays().get(dayID).getDescription());
-            picture.setBackground(MainActivity.getDays().get(dayID).getPicture());
-            newTarget=MainActivity.getDays().get(dayID).getTarget();
-            edit_menu.getMenu().findItem(R.id.date).setTitle(String.format("%tY年%<tm月%<td日 %<tH:%<tM",MainActivity.getDays().get(dayID).getTarget().getTime()));
-            edit_menu.getMenu().findItem(R.id.type).setTitle(MainActivity.getDays().get(dayID).getStringType());
-            edit_menu.getMenu().findItem(R.id.repeat).setTitle("");
+            nameEdit.setText(MainActivity.getIdFindDay().get(dayID).getName());
+            descriptionEdit.setText(MainActivity.getIdFindDay().get(dayID).getDescription());
+            if(MainActivity.getIdFindDay().get(dayID).getPicturePath()!=null){
+                Bitmap bmp=MainActivity.getResizePhoto(MainActivity.getIdFindDay().get(dayID).getPicturePath());
+                @SuppressLint({"NewApi", "LocalSuppress"}) Bitmap blurBitmap = ImageFilter.blurBitmap(NewOrUpdateDayActivity.this, bmp, 20f);
+                picture.setImageBitmap(blurBitmap);
+            }
+            else{
+                Resources res = NewOrUpdateDayActivity.this.getResources();
+                Bitmap bmp= BitmapFactory.decodeResource(res,R.drawable.backgroud_1);
+                Bitmap blurBitmap = ImageFilter.blurBitmap(this, bmp, 20f);
+                picture.setImageBitmap(blurBitmap);
+            }
+            newTarget=MainActivity.getIdFindDay().get(dayID).getTarget();
+            edit_menu.getMenu().findItem(R.id.date).setTitle(String.format("%tY年%<tm月%<td日 %<tH:%<tM",MainActivity.getIdFindDay().get(dayID).getTarget().getTime()));
+            edit_menu.getMenu().findItem(R.id.type).setTitle("Label"+MainActivity.getIdFindDay().get(dayID).getStringType());
+            edit_menu.getMenu().findItem(R.id.repeat).setTitle("Repeat"+MainActivity.getIdFindDay().get(dayID).getStringPeriod());
         }
-        newTarget=Calendar.getInstance();
+
 
         edit_menu.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -169,7 +173,7 @@ public class NewOrUpdateDayActivity extends AppCompatActivity {
                                         if(i==2){
                                             newType=Day.Work;
                                         }
-                                        if (i==3){
+                                        if(i==3){
                                             newType=Day.TypeDefault;
                                         }
                                     }
@@ -259,7 +263,7 @@ public class NewOrUpdateDayActivity extends AppCompatActivity {
                 // true表示采用24小时制
                 ,true).show();
     }
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -274,7 +278,9 @@ public class NewOrUpdateDayActivity extends AppCompatActivity {
                     Log.e("TAG", uri.toString());
                     String filePath = getRealPathFromURI(this,uri);
                     newPicturePath = filePath;//此处获取！！！
-                    picture.setBackground(new BitmapDrawable(MainActivity.getResizePhoto(newPicturePath)));
+                    Bitmap bmp=MainActivity.getResizePhoto(newPicturePath);
+                    @SuppressLint({"NewApi", "LocalSuppress"}) Bitmap blurBitmap = ImageFilter.blurBitmap(NewOrUpdateDayActivity.this, bmp, 20f);
+                    picture.setImageBitmap(blurBitmap);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -296,6 +302,6 @@ public class NewOrUpdateDayActivity extends AppCompatActivity {
             }
         }
     }
-
 }
+
 

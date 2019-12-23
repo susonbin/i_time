@@ -1,12 +1,17 @@
 package com.jnu.i_time.data;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,7 +22,6 @@ import com.jnu.i_time.MainActivity;
 import com.jnu.i_time.R;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 public class DayArrayAdapter extends ArrayAdapter<Day> {
 
@@ -36,6 +40,7 @@ public class DayArrayAdapter extends ArrayAdapter<Day> {
         View item = mInflater.inflate(this.resourceId, null);
 
         TextView interval = (TextView) item.findViewById(R.id.textView_interval);
+        ImageView picture=(ImageView) item.findViewById(R.id.day_item_picture);
         TextView name=(TextView)item.findViewById(R.id.textView_name);
         TextView date =(TextView) item.findViewById(R.id.textView_date);
         TextView tail=(TextView) item.findViewById(R.id.textView_tail);
@@ -44,11 +49,24 @@ public class DayArrayAdapter extends ArrayAdapter<Day> {
         String sub=String.format("%tY年%<tm月%<td日 %<tH:%<tM",day_item.getTarget().getTime());
         interval.setText(day_item.getSub().getTimeInMillis()/(1000*60*60*24)+" DAYS");
         //noinspection deprecation
-        interval.setBackground(day_item.getPicture());
+        if(day_item.getPicturePath()!=null){
+            Bitmap bmp=MainActivity.getResizePhoto(day_item.getPicturePath());
+            @SuppressLint({"NewApi", "LocalSuppress"}) Bitmap blurBitmap = ImageFilter.blurBitmap(MainActivity.getActivity(), bmp, 20f);
+            picture.setImageBitmap(blurBitmap);
+            tail.setBackground(new BitmapDrawable(blurBitmap));
+        }
+        else{
+            Resources res = MainActivity.getActivity().getResources();
+            Bitmap bmp= BitmapFactory.decodeResource(res,R.drawable.backgroud_1);
+            @SuppressLint({"NewApi", "LocalSuppress"})Bitmap blurBitmap = ImageFilter.blurBitmap(MainActivity.getActivity(), bmp, 20f);
+            picture.setImageBitmap(blurBitmap);
+            tail.setBackground(new BitmapDrawable(blurBitmap));
+        }
+
         name.setText("  "+day_item.getName());
         date.setText("   "+sub);
         //noinspection deprecation
-        tail.setBackground(day_item.getPicture());
+
 
         return item;
     }

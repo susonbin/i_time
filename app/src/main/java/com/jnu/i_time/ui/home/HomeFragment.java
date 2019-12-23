@@ -1,7 +1,10 @@
 package com.jnu.i_time.ui.home;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +25,8 @@ import com.jnu.i_time.MainActivity;
 import com.jnu.i_time.R;
 import com.jnu.i_time.data.DayArrayAdapter;
 
+import java.util.Calendar;
+
 import static android.app.Activity.RESULT_OK;
 
 
@@ -33,15 +38,8 @@ public class HomeFragment extends Fragment {
         homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        final TextView textView = view.findViewById(R.id.text_home);
         final ListView listView = view.findViewById(R.id.button_list);
 
-        homeViewModel.getText().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
         homeViewModel.getAdapter().observe(this, new Observer<DayArrayAdapter>() {
             @Override
             public void onChanged(@Nullable DayArrayAdapter adapter) {
@@ -51,13 +49,37 @@ public class HomeFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(MainActivity.getContext(),"点击",Toast.LENGTH_LONG).show();
+                //Toast.makeText(MainActivity.getContext(),"点击",Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(MainActivity.getContext(), DayMessageActivity.class);
-                Log.d("id：",""+position);
-                intent.putExtra("dayId",position);
+                //Log.d("size：",""+homeViewModel.getDays_of_home().size());
+                //Log.d("id：",""+homeViewModel.getDays_of_home().get(position).getId());
+                intent.putExtra("dayId",homeViewModel.getDays_of_home().get(position).getId());
                 startActivityForResult(intent, MainActivity.REQUEST_CODE_UPDATE_DAY);
             }
         });
+        final Handler handler=new Handler(){
+            public void handleMessage(Message msg){
+                homeViewModel.getAdapter().observe(HomeFragment.this, new Observer<DayArrayAdapter>() {
+                    @Override
+                    public void onChanged(@Nullable DayArrayAdapter adapter) {
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+            }
+        };
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try{
+                    while(true){
+                        handler.sendEmptyMessage(1);
+                        Thread.sleep(1000);
+                    }
+                }catch (InterruptedException e){
+
+                }
+            }
+        }).start();
         return view;
     }
 
@@ -72,7 +94,11 @@ public class HomeFragment extends Fragment {
                     int id=data.getIntExtra("id",0);
                     boolean delete=data.getBooleanExtra("delete",false);
                     if(delete){
-                        homeViewModel.getDays_of_home().remove(id);
+                        //Log.d("aftdele",""+MainActivity.getDays().size());
+                        MainActivity.getDays().remove( MainActivity.getIdFindDay().get(id));
+                        //Log.d("aftdele",""+MainActivity.getDays().size());
+                        MainActivity.getIdFindDay().remove(id);
+
                     }
                     homeViewModel.getAdapter().observe(this, new Observer<DayArrayAdapter>() {
                         @Override

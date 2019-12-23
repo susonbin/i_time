@@ -24,7 +24,7 @@ public class AnniversaryViewModel extends ViewModel {
     public AnniversaryViewModel() {
 
         context=MainActivity.getContext();
-        days_of_anniversary=MainActivity.getDays();
+        days_of_anniversary=MainActivity.getDays(Day.Anniversary);
 
         mText = new MutableLiveData<>();
         mText.setValue("This is anniversary fragment");

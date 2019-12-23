@@ -24,7 +24,7 @@ public class LiveViewModel extends ViewModel {
     public LiveViewModel() {
 
         context= MainActivity.getContext();
-        days_of_live =MainActivity.getDays();
+        days_of_live =MainActivity.getDays(Day.Live);
 
         mText = new MutableLiveData<>();
         mText.setValue("This is live fragment");

@@ -1,6 +1,7 @@
 package com.jnu.i_time.ui.home;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -26,12 +27,13 @@ public class HomeViewModel extends ViewModel {
 
         context=MainActivity.getContext();
         days_of_home=MainActivity.getDays();
+        //Log.d("id：",""+getDays_of_home().size());
 
         mText = new MutableLiveData<>();
         mText.setValue("This is home fragment");
 
         mAdapter=new MutableLiveData<>();
-        mAdapter.setValue(new DayArrayAdapter(context,R.layout.day_item/*具体的试图*/, MainActivity.getDays()));
+        mAdapter.setValue(new DayArrayAdapter(context,R.layout.day_item/*具体的试图*/, days_of_home));
 
     }
 
