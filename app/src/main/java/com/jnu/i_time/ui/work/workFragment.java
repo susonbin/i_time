@@ -71,13 +71,12 @@ public class workFragment extends Fragment {
                         MainActivity.getDays().remove( MainActivity.getIdFindDay().get(id));
                         //Log.d("aftdele",""+MainActivity.getDays().size());
                         MainActivity.getIdFindDay().remove(id);
+                        MainActivity.getNavController().navigate(R.id.nav_work);
                     }
-                    workViewModel.getAdapter().observe(this, new Observer<DayArrayAdapter>() {
-                        @Override
-                        public void onChanged(@Nullable DayArrayAdapter adapter) {
-                            adapter.notifyDataSetChanged();
-                        }
-                    });
+                }
+                else{
+                    MainActivity.getNavController().navigate(R.id.nav_work);
+                    //Log.d("back4",resultCode+"");
                 }
                 break;
             }

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:drawable/dialog_holo_light_frame">
+    android:background="@android:drawable/picture_frame">
 
     <LinearLayout
         android:layout_width="90dp"
@@ -32,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
-                android:background="?attr/actionBarDivider"
+                android:background="@null"
                 android:gravity="center"
                 android:shadowColor="@color/colorAccent"
                 android:text="TextView"
@@ -44,7 +44,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="300dp"
+        android:layout_width="311dp"
         android:layout_height="80dp"
         android:layout_gravity="center_vertical"
         android:layout_weight="1"
@@ -74,7 +74,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="10dp"
+        android:layout_width="15dp"
         android:layout_height="80dp"
         android:layout_gravity="center_vertical"
         android:layout_weight="1"
@@ -83,7 +83,7 @@
         <TextView
             android:id="@+id/textView_tail"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:background="@drawable/backgroud_1" />
     </LinearLayout>
 

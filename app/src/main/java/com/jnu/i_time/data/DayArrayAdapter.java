@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,12 +51,15 @@ public class DayArrayAdapter extends ArrayAdapter<Day> {
         interval.setText(day_item.getSub().getTimeInMillis()/(1000*60*60*24)+" DAYS");
         //noinspection deprecation
         if(day_item.getPicturePath()!=null){
+            Log.d("itemID","YES"+position);
             Bitmap bmp=MainActivity.getResizePhoto(day_item.getPicturePath());
             @SuppressLint({"NewApi", "LocalSuppress"}) Bitmap blurBitmap = ImageFilter.blurBitmap(MainActivity.getActivity(), bmp, 20f);
             picture.setImageBitmap(blurBitmap);
             tail.setBackground(new BitmapDrawable(blurBitmap));
         }
         else{
+            Log.d("itemID","NO"+position);
+            Log.d("ID:",""+day_item.getId());
             Resources res = MainActivity.getActivity().getResources();
             Bitmap bmp= BitmapFactory.decodeResource(res,R.drawable.backgroud_1);
             @SuppressLint({"NewApi", "LocalSuppress"})Bitmap blurBitmap = ImageFilter.blurBitmap(MainActivity.getActivity(), bmp, 20f);

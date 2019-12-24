@@ -1,6 +1,8 @@
 package com.jnu.i_time.ui.anniversary;
 
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -22,8 +24,11 @@ import androidx.lifecycle.ViewModelProviders;
 import com.jnu.i_time.DayMessageActivity;
 import com.jnu.i_time.MainActivity;
 import com.jnu.i_time.R;
+import com.jnu.i_time.data.Day;
 import com.jnu.i_time.data.DayArrayAdapter;
 import com.jnu.i_time.ui.home.HomeFragment;
+
+import java.util.Calendar;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -63,23 +68,23 @@ public class AnniversaryFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode){
             case MainActivity.REQUEST_CODE_UPDATE_DAY :{
+
                 if(resultCode==RESULT_OK){
-                    //String tag="asdfghjkl";
-                    //Log.v(tag,"inreturn");
+                    String tag="asdfghjkl";
+                    Log.v(tag,"inreturn");
                     int id=data.getIntExtra("id",0);
                     boolean delete=data.getBooleanExtra("delete",false);
                     if(delete){
                         //Log.d("aftdele",""+MainActivity.getDays().size());
                         MainActivity.getDays().remove( MainActivity.getIdFindDay().get(id));
-                        //Log.d("aftdele",""+MainActivity.getDays().size());
+                        Log.d("aftdele",""+MainActivity.getDays().size());
                         MainActivity.getIdFindDay().remove(id);
+                        MainActivity.getNavController().navigate(R.id.nav_anniversary);
                     }
-                    anniversaryViewModel.getAdapter().observe(this, new Observer<DayArrayAdapter>() {
-                        @Override
-                        public void onChanged(@Nullable DayArrayAdapter adapter) {
-                            adapter.notifyDataSetChanged();
-                        }
-                    });
+                }
+                else{
+                    MainActivity.getNavController().navigate(R.id.nav_anniversary);
+                    //Log.d("back4",resultCode+"");
                 }
                 break;
             }

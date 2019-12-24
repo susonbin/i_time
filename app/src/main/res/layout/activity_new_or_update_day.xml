@@ -26,6 +26,7 @@
                 android:id="@+id/new_update_picture"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:adjustViewBounds="true"
                 android:scaleType="fitXY"
                 app:srcCompat="?attr/colorPrimary"
                 tools:srcCompat="@tools:sample/avatars" />
@@ -41,7 +42,7 @@
                     android:background="#00000000"
                     android:fitsSystemWindows="true"
                     android:minHeight="?attr/actionBarSize"
-                    app:navigationIcon="@drawable/ic_arrow_back_black_24dp"
+                    app:navigationIcon="@drawable/ic_arrow_back_white_24dp"
                     app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                     app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
                     tools:ignore="MissingConstraints" />

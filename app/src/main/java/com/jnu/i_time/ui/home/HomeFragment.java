@@ -49,7 +49,7 @@ public class HomeFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //Toast.makeText(MainActivity.getContext(),"点击",Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.getContext(),"点击",Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(MainActivity.getContext(), DayMessageActivity.class);
                 //Log.d("size：",""+homeViewModel.getDays_of_home().size());
                 //Log.d("id：",""+homeViewModel.getDays_of_home().get(position).getId());
@@ -57,29 +57,7 @@ public class HomeFragment extends Fragment {
                 startActivityForResult(intent, MainActivity.REQUEST_CODE_UPDATE_DAY);
             }
         });
-        final Handler handler=new Handler(){
-            public void handleMessage(Message msg){
-                homeViewModel.getAdapter().observe(HomeFragment.this, new Observer<DayArrayAdapter>() {
-                    @Override
-                    public void onChanged(@Nullable DayArrayAdapter adapter) {
-                        adapter.notifyDataSetChanged();
-                    }
-                });
-            }
-        };
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try{
-                    while(true){
-                        handler.sendEmptyMessage(1);
-                        Thread.sleep(1000);
-                    }
-                }catch (InterruptedException e){
 
-                }
-            }
-        }).start();
         return view;
     }
 
@@ -90,7 +68,7 @@ public class HomeFragment extends Fragment {
             case MainActivity.REQUEST_CODE_UPDATE_DAY :{
                 if(resultCode==RESULT_OK){
                     //String tag="asdfghjkl";
-                    //Log.v(tag,"inreturn");
+                    Log.d("homef","inreturn");
                     int id=data.getIntExtra("id",0);
                     boolean delete=data.getBooleanExtra("delete",false);
                     if(delete){
@@ -98,14 +76,12 @@ public class HomeFragment extends Fragment {
                         MainActivity.getDays().remove( MainActivity.getIdFindDay().get(id));
                         //Log.d("aftdele",""+MainActivity.getDays().size());
                         MainActivity.getIdFindDay().remove(id);
-
+                        MainActivity.getNavController().navigate(R.id.nav_home);
                     }
-                    homeViewModel.getAdapter().observe(this, new Observer<DayArrayAdapter>() {
-                        @Override
-                        public void onChanged(@Nullable DayArrayAdapter adapter) {
-                            adapter.notifyDataSetChanged();
-                        }
-                    });
+                }
+                else{
+                    MainActivity.getNavController().navigate(R.id.nav_home);
+                    //Log.d("back4",resultCode+"");
                 }
                 break;
             }

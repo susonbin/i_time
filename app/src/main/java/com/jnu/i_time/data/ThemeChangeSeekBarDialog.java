@@ -2,24 +2,23 @@ package com.jnu.i_time.data;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.graphics.Color;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SeekBar;
+import android.widget.Toast;
 
-import com.jnu.i_time.MainActivity;
 import com.jnu.i_time.R;
 
 /*自定义一个MySeekBarDialog*/
-public class MySeekBarDialog extends AlertDialog implements SeekBar.OnSeekBarChangeListener{
+public class ThemeChangeSeekBarDialog extends AlertDialog implements SeekBar.OnSeekBarChangeListener{
 
-    private SeekBar colorSeekBar;//用于显示屏幕亮度
+    private SeekBar colorSeekBar;//用于显示颜色
     private Button buttonOk;
     private Button buttonCancel;
+    private int Color;
 
     /*自定义构造函数用于初始化*/
-    public MySeekBarDialog(Context context) {
+    public ThemeChangeSeekBarDialog(final Context context) {
         super(context);
         View view = getLayoutInflater().inflate(R.layout.seek_bar,null);
         colorSeekBar = (SeekBar) view.findViewById(R.id.seekBar);
@@ -29,14 +28,25 @@ public class MySeekBarDialog extends AlertDialog implements SeekBar.OnSeekBarCha
         colorSeekBar.setProgress(0);
         setView(view);
         colorSeekBar.setOnSeekBarChangeListener(this);
+        buttonOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Theme=Color;改变颜色
+                ThemeChangeSeekBarDialog.this.dismiss();
+                Toast.makeText(context, "修改成功" ,Toast.LENGTH_SHORT).show();
+            }
+        });
+        buttonCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ThemeChangeSeekBarDialog.this.dismiss();
+            }
+        });
     }
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-        Log.d("pro", String.valueOf(Color.rgb(progress,progress,progress)));
-
-
-
+        //Color=progress通过拖条改变Color值;
     }
 
     @Override

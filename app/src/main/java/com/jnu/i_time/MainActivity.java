@@ -1,41 +1,34 @@
 package com.jnu.i_time;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import android.os.Handler;
-import android.os.Message;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
-import androidx.lifecycle.Observer;
 import androidx.navigation.NavController;
-import androidx.navigation.NavDestination;
-import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationView;
 import com.jnu.i_time.data.Day;
-import com.jnu.i_time.data.DayArrayAdapter;
-import com.jnu.i_time.data.MySeekBarDialog;
+import com.jnu.i_time.data.DataSaver;
+import com.jnu.i_time.data.ThemeChangeSeekBarDialog;
 
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -43,6 +36,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -63,21 +58,43 @@ public class MainActivity extends AppCompatActivity {
     private static Context context;
     private static Activity activity;
 
-    Toolbar toolbar;
-    FloatingActionButton fab;
-    DrawerLayout drawer;
-    NavigationView navigationView;
-    NavController navController;
+    private static NavController navController;
+
+    private Toolbar toolbar;
+    private FloatingActionButton fab;
+    private DrawerLayout drawer;
+    private NavigationView navigationView;
+
+    private DataSaver dataSaver;
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        dataSaver.save_days();
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
-
-        days=new ArrayList<>();//初始化-->结合持久化
-        idFindDay=new HashMap<Integer, Day>();
+        makeStatusBarTransparent(this);
 
         context=this;
         activity=this;
+        days=new ArrayList<>();//初始化-->结合持久化
+        idFindDay=new HashMap<Integer, Day>();
+        dataSaver =new DataSaver(this);
+
+        days= dataSaver.load_days();
+
+        for(int i=0;i<days.size();i++){
+            ID=Math.max(ID,days.get(i).getId())+1;
+            idFindDay.put(days.get(i).getId(),days.get(i));
+        }
+
+        Log.d("初始化",""+days);
+        Log.d("初始化",""+idFindDay);
+        Log.d("fisID:",""+ID);
 
         toolbar = findViewById(R.id.toolbar);
         fab = findViewById(R.id.fab);
@@ -124,10 +141,7 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
         //noinspection SimplifiableIfStatement
         if (id == R.id.theme_settings) {
-            new MySeekBarDialog(this).show();
-
-            //这里设置主题修改的功能
-            Toast.makeText(getApplicationContext(), "修改成功" ,Toast.LENGTH_SHORT).show();
+            new ThemeChangeSeekBarDialog(this).show();//这里设置主题修改的功能
             return true;
         }
         if (id == R.id.language_settings) {
@@ -151,32 +165,20 @@ public class MainActivity extends AppCompatActivity {
         switch (requestCode){
             case MainActivity.REQUEST_CODE_NEW_DAY :{
                 if(resultCode==RESULT_OK){
-                    final Handler handler=new Handler(){
-                        public void handleMessage(Message msg){
-                            navController.navigateUp();
-                        }
-                    };
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            String name=data.getStringExtra("name");
-                            if(name.equals(""))name="New Day";
-                            String description=data.getStringExtra("description");
-                            Calendar target=(Calendar) data.getSerializableExtra("newTarget");
-                            String picturePath=data.getStringExtra("newPicturePath");
-                            Drawable picture=new BitmapDrawable(getResizePhoto(picturePath));
-                            if(data.getStringExtra("newPicturePath")==null)picture=getResources().getDrawable(R.drawable.backgroud_1);
-                            int period=data.getIntExtra("newPeriod",0);
-                            int type=data.getIntExtra("newType",0);
-                            Day newDay=new Day(ID,type,name,description,picturePath,target,period);
-                            //Log.d("dayp：",""+newDay);
-                            days.add(newDay);
-                            //Log.d("daym：",""+days.get(0));
-                            idFindDay.put(ID++,newDay);
-                            //Log.d("daya：",""+idFindDay);
-                            handler.sendEmptyMessage(1);
-                        }
-                    }).start();
+                    String name=data.getStringExtra("name");
+                    if(name.equals(""))name="New Day";
+                    String description=data.getStringExtra("description");
+                    Calendar target=(Calendar) data.getSerializableExtra("newTarget");
+                    String picturePath=data.getStringExtra("newPicturePath");
+                    int period=data.getIntExtra("newPeriod",0);
+                    int type=data.getIntExtra("newType",0);
+                    Day newDay=new Day(ID,type,name,description,picturePath,target,period);
+                    //Log.d("dayp：",""+newDay);
+                    days.add(newDay);
+                    //Log.d("daym：",""+days.get(0));
+                    idFindDay.put(ID++,newDay);
+                    //Log.d("daya：",""+idFindDay);
+                    navController.navigate(R.id.nav_home);
                 }
                 break;
             }
@@ -224,4 +226,23 @@ public class MainActivity extends AppCompatActivity {
     }
     public static Context getContext(){ return context; }
     public static Activity getActivity(){ return activity; }
+    public static NavController getNavController() {
+        return navController;
+    }
+    public static void makeStatusBarTransparent(Activity activity) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+            return;
+        }
+        Window window = activity.getWindow();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            int option = window.getDecorView().getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
+            window.getDecorView().setSystemUiVisibility(option);
+            window.setStatusBarColor(Color.TRANSPARENT);
+        } else {
+            window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
+    }
+
 }

@@ -10,6 +10,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -23,10 +24,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -42,6 +45,7 @@ import com.jnu.i_time.data.ImageFilter;
 import java.util.Calendar;
 
 import static com.jnu.i_time.MainActivity.getActivity;
+import static com.jnu.i_time.MainActivity.makeStatusBarTransparent;
 
 public class NewOrUpdateDayActivity extends AppCompatActivity {
 
@@ -64,9 +68,10 @@ public class NewOrUpdateDayActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_new_or_update_day);
+        makeStatusBarTransparent(this);
         if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
-        }
+        }//得到图片获取权限
 
         Toolbar toolbar = findViewById(R.id.toolbar_new_update);
         setSupportActionBar(toolbar);
@@ -88,6 +93,7 @@ public class NewOrUpdateDayActivity extends AppCompatActivity {
         dayID=getIntent().getIntExtra("dayID",-1);
 
         if(dayID>=0){
+            newPicturePath=MainActivity.getIdFindDay().get(dayID).getPicturePath();
             nameEdit.setText(MainActivity.getIdFindDay().get(dayID).getName());
             descriptionEdit.setText(MainActivity.getIdFindDay().get(dayID).getDescription());
             if(MainActivity.getIdFindDay().get(dayID).getPicturePath()!=null){
@@ -123,7 +129,7 @@ public class NewOrUpdateDayActivity extends AppCompatActivity {
                                 .setItems(items, new DialogInterface.OnClickListener() {//添加列表
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
-                                        edit_menu.getMenu().findItem(R.id.repeat).setTitle("Repeat: "+items[i]);
+                                        if(i!=4)edit_menu.getMenu().findItem(R.id.repeat).setTitle("Repeat: "+items[i]);
                                         if(i==0){
                                             newPeriod=365;
                                         }
@@ -137,8 +143,30 @@ public class NewOrUpdateDayActivity extends AppCompatActivity {
                                             newPeriod=1;
                                         }
                                         if(i==4){
-                                            new AlertDialog.Builder(NewOrUpdateDayActivity.this);
-                                                    //编辑功能
+                                            final Dialog dialog = new Dialog(NewOrUpdateDayActivity.this);
+                                            // 设置它的ContentView
+                                            // 得到myview才可以通过Id找到控件,实现dialog里的按钮的点击事件
+                                            View editView = LayoutInflater.from(MainActivity.getContext()).inflate(R.layout.edit_period_view, null);
+                                            dialog.setContentView(editView);
+                                            Button dialog_btnOk = (Button) editView.findViewById(R.id.edit_period_button_ok);
+                                            Button dialog_btnCancel = (Button) editView.findViewById(R.id.edit_period_button_cancel);
+                                            final EditText dialog_edtxt=  (EditText) editView.findViewById(R.id.edit_period_text);
+                                            /** dialog_btn的点击事件 */
+                                            dialog_btnOk.setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View v) {
+                                                    newPeriod=Integer.parseInt(dialog_edtxt.getEditableText().toString().trim());
+                                                    edit_menu.getMenu().findItem(R.id.repeat).setTitle("Repeat: "+newPeriod+"天");
+                                                    dialog.dismiss();
+                                                }
+                                            });
+                                            dialog_btnCancel.setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View v) {
+                                                    dialog.dismiss();
+                                                }
+                                            });
+                                            dialog.show();
                                         }
                                         if(i==5){
                                             newPeriod=0;

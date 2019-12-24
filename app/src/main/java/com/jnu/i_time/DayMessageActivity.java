@@ -35,6 +35,7 @@ import java.util.Calendar;
 
 import static com.jnu.i_time.MainActivity.getDays;
 import static com.jnu.i_time.MainActivity.getIdFindDay;
+import static com.jnu.i_time.MainActivity.makeStatusBarTransparent;
 
 public class DayMessageActivity extends AppCompatActivity {
 
@@ -53,6 +54,7 @@ public class DayMessageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_day_message);
+        makeStatusBarTransparent(this);
 
         mess_menu = findViewById(R.id.mess_menu);
 

@@ -27,7 +27,7 @@ public class HomeViewModel extends ViewModel {
 
         context=MainActivity.getContext();
         days_of_home=MainActivity.getDays();
-        //Log.d("id：",""+getDays_of_home().size());
+        Log.d("size()",""+getDays_of_home().size());
 
         mText = new MutableLiveData<>();
         mText.setValue("This is home fragment");
