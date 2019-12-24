@@ -19,10 +19,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
-import com.jnu.i_time.MainActivity;
 import com.jnu.i_time.R;
 
 import java.util.ArrayList;
+
+import static com.jnu.i_time.my_application.MyApplication.*;
 
 public class DayArrayAdapter extends ArrayAdapter<Day> {
 
@@ -51,18 +52,18 @@ public class DayArrayAdapter extends ArrayAdapter<Day> {
         interval.setText(day_item.getSub().getTimeInMillis()/(1000*60*60*24)+" DAYS");
         //noinspection deprecation
         if(day_item.getPicturePath()!=null){
-            Log.d("itemID","YES"+position);
-            Bitmap bmp=MainActivity.getResizePhoto(day_item.getPicturePath());
-            @SuppressLint({"NewApi", "LocalSuppress"}) Bitmap blurBitmap = ImageFilter.blurBitmap(MainActivity.getActivity(), bmp, 20f);
+            //Log.d("itemID","YES"+position);
+            Bitmap bmp=getResizePhoto(day_item.getPicturePath());
+            @SuppressLint({"NewApi", "LocalSuppress"}) Bitmap blurBitmap = ImageFilter.blurBitmap(getActivity(), bmp, 20f);
             picture.setImageBitmap(blurBitmap);
             tail.setBackground(new BitmapDrawable(blurBitmap));
         }
         else{
-            Log.d("itemID","NO"+position);
-            Log.d("ID:",""+day_item.getId());
-            Resources res = MainActivity.getActivity().getResources();
+            //Log.d("itemID","NO"+position);
+            //Log.d("ID:",""+day_item.getId());
+            Resources res = getActivity().getResources();
             Bitmap bmp= BitmapFactory.decodeResource(res,R.drawable.backgroud_1);
-            @SuppressLint({"NewApi", "LocalSuppress"})Bitmap blurBitmap = ImageFilter.blurBitmap(MainActivity.getActivity(), bmp, 20f);
+            @SuppressLint({"NewApi", "LocalSuppress"})Bitmap blurBitmap = ImageFilter.blurBitmap(getActivity(), bmp, 20f);
             picture.setImageBitmap(blurBitmap);
             tail.setBackground(new BitmapDrawable(blurBitmap));
         }

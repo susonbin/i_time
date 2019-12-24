@@ -6,12 +6,15 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.jnu.i_time.MainActivity;
+import com.jnu.i_time.activity.MainActivity;
 import com.jnu.i_time.R;
 import com.jnu.i_time.data.Day;
 import com.jnu.i_time.data.DayArrayAdapter;
 
 import java.util.ArrayList;
+
+import static com.jnu.i_time.my_application.MyApplication.getContext;
+import static com.jnu.i_time.my_application.MyApplication.getDays;
 
 public class LiveViewModel extends ViewModel {
 
@@ -23,8 +26,8 @@ public class LiveViewModel extends ViewModel {
 
     public LiveViewModel() {
 
-        context= MainActivity.getContext();
-        days_of_live =MainActivity.getDays(Day.Live);
+        context= getContext();
+        days_of_live = getDays(Day.Live);
 
         mText = new MutableLiveData<>();
         mText.setValue("This is live fragment");

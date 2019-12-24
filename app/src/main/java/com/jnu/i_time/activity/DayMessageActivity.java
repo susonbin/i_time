@@ -1,41 +1,39 @@
-package com.jnu.i_time;
+package com.jnu.i_time.activity;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.CompoundButton;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
-import com.jnu.i_time.data.Day;
+import com.jnu.i_time.R;
+import com.jnu.i_time.my_application.MyApplication;
 
 import java.util.Calendar;
 
-import static com.jnu.i_time.MainActivity.getDays;
-import static com.jnu.i_time.MainActivity.getIdFindDay;
-import static com.jnu.i_time.MainActivity.makeStatusBarTransparent;
+import static com.jnu.i_time.my_application.MyApplication.REQUEST_CODE_NEW_DAY;
+import static com.jnu.i_time.my_application.MyApplication.getDays;
+import static com.jnu.i_time.my_application.MyApplication.getIdFindDay;
+import static com.jnu.i_time.my_application.MyApplication.getResizePhoto;
+import static com.jnu.i_time.my_application.MyApplication.makeStatusBarTransparent;
 
 public class DayMessageActivity extends AppCompatActivity {
 
@@ -70,8 +68,8 @@ public class DayMessageActivity extends AppCompatActivity {
         dayID=getIntent().getIntExtra("dayId",0);
 
         backgroundPicture=findViewById(R.id.day_mess_picture);
-        if(MainActivity.getIdFindDay().get(dayID).getPicturePath()!=null){
-            Bitmap bmp=MainActivity.getResizePhoto(MainActivity.getIdFindDay().get(dayID).getPicturePath());
+        if(getIdFindDay().get(dayID).getPicturePath()!=null){
+            Bitmap bmp=getResizePhoto(getIdFindDay().get(dayID).getPicturePath());
             backgroundPicture.setImageBitmap(bmp);
         }
         else{
@@ -85,9 +83,9 @@ public class DayMessageActivity extends AppCompatActivity {
         final Handler handler=new Handler(){
             public void handleMessage(Message msg){
                 Calendar sub=Calendar.getInstance();
-                if(MainActivity.getIdFindDay().get(dayID)!=null){
-                    sub=MainActivity.getIdFindDay().get(dayID).getSub();
-                    MainActivity.getIdFindDay().get(dayID).changeTargetDay();
+                if(getIdFindDay().get(dayID)!=null){
+                    sub=getIdFindDay().get(dayID).getSub();
+                    getIdFindDay().get(dayID).changeTargetDay();
                     String subString=""
                             +(sub.get(Calendar.YEAR)-1970)+"年"
                             +(sub.get(Calendar.MONTH))+"月"
@@ -95,7 +93,7 @@ public class DayMessageActivity extends AppCompatActivity {
                             +(sub.get(Calendar.HOUR_OF_DAY))+":"
                             +(sub.get(Calendar.MINUTE))+":"
                             +(sub.get(Calendar.SECOND));
-                    if(MainActivity.getIdFindDay().get(dayID).isDayFinal()){
+                    if(getIdFindDay().get(dayID).isDayFinal()){
                         mess_menu.getMenu().findItem(R.id.day_time).setTitle("已经"+subString);
                     }
                     else{
@@ -122,16 +120,16 @@ public class DayMessageActivity extends AppCompatActivity {
         }).start();
 
         Switch dayAlarmSwitch = (Switch)mess_menu.getMenu().findItem(R.id.day_alarm).getActionView().findViewById(R.id.switch_);
-        if(MainActivity.getIdFindDay().get(dayID).isAlarm())dayAlarmSwitch.setChecked(true);
+        if(getIdFindDay().get(dayID).isAlarm())dayAlarmSwitch.setChecked(true);
         dayAlarmSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     Toast.makeText(DayMessageActivity.this,"成功加入闹钟",Toast.LENGTH_LONG).show();
-                    MainActivity.getIdFindDay().get(dayID).setAlarm(true);
+                    getIdFindDay().get(dayID).setAlarm(true);
                 } else {
                     Toast.makeText(DayMessageActivity.this,"取消闹钟提醒",Toast.LENGTH_LONG).show();
-                    MainActivity.getIdFindDay().get(dayID).setAlarm(false);
+                    getIdFindDay().get(dayID).setAlarm(false);
                 }
             }
         });
@@ -173,9 +171,9 @@ public class DayMessageActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int itemId = item.getItemId();
         if(itemId==R.id.action_edit){
-            Intent intent = new Intent(MainActivity.getContext(), NewOrUpdateDayActivity.class);
+            Intent intent = new Intent(DayMessageActivity.this, NewOrUpdateDayActivity.class);
             intent.putExtra("dayID",dayID);
-            startActivityForResult(intent, MainActivity.REQUEST_CODE_NEW_DAY);
+            startActivityForResult(intent, REQUEST_CODE_NEW_DAY);
         }
         if(itemId==R.id.action_delete){
             new android.app.AlertDialog.Builder(this)
@@ -188,7 +186,7 @@ public class DayMessageActivity extends AppCompatActivity {
                             Boolean isDele=true;
                             intent.putExtra("delete",isDele);
                             intent.putExtra("id",dayID);
-                            Toast.makeText(MainActivity.getContext(), "删除成功", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MyApplication.getContext(), "删除成功", Toast.LENGTH_SHORT).show();
 
                             setResult(RESULT_OK,intent);
                             finish();
@@ -210,7 +208,7 @@ public class DayMessageActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode){
-            case MainActivity.REQUEST_CODE_NEW_DAY :{
+            case REQUEST_CODE_NEW_DAY :{
                 if(resultCode==RESULT_OK){
                     //Log.d("sus","ppp");
                     getIdFindDay().get(dayID).setName(data.getStringExtra("name"));
@@ -220,8 +218,8 @@ public class DayMessageActivity extends AppCompatActivity {
                     getIdFindDay().get(dayID).setPicturePath(picturePath);
                     getIdFindDay().get(dayID).setType(data.getIntExtra("newType",0));
                     mess_menu.getMenu().findItem(R.id.day_name).setTitle(getIdFindDay().get(dayID).getName());
-                    if(MainActivity.getIdFindDay().get(dayID).getPicturePath()!=null){
-                        Bitmap bmp=MainActivity.getResizePhoto(MainActivity.getIdFindDay().get(dayID).getPicturePath());
+                    if(getIdFindDay().get(dayID).getPicturePath()!=null){
+                        Bitmap bmp=getResizePhoto(getIdFindDay().get(dayID).getPicturePath());
                         backgroundPicture.setImageBitmap(bmp);
                     }
                     else{

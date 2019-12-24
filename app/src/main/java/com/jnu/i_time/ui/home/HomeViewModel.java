@@ -8,11 +8,14 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.jnu.i_time.data.Day;
-import com.jnu.i_time.MainActivity;
+import com.jnu.i_time.activity.MainActivity;
 import com.jnu.i_time.R;
 import com.jnu.i_time.data.DayArrayAdapter;
 
 import java.util.ArrayList;
+
+import static com.jnu.i_time.my_application.MyApplication.getContext;
+import static com.jnu.i_time.my_application.MyApplication.getDays;
 
 
 public class HomeViewModel extends ViewModel {
@@ -25,8 +28,8 @@ public class HomeViewModel extends ViewModel {
 
     public HomeViewModel() {
 
-        context=MainActivity.getContext();
-        days_of_home=MainActivity.getDays();
+        context=getContext();
+        days_of_home=getDays();
         Log.d("size()",""+getDays_of_home().size());
 
         mText = new MutableLiveData<>();

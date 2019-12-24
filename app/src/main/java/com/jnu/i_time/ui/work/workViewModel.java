@@ -6,12 +6,15 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.jnu.i_time.MainActivity;
+import com.jnu.i_time.activity.MainActivity;
 import com.jnu.i_time.R;
 import com.jnu.i_time.data.Day;
 import com.jnu.i_time.data.DayArrayAdapter;
 
 import java.util.ArrayList;
+
+import static com.jnu.i_time.my_application.MyApplication.getContext;
+import static com.jnu.i_time.my_application.MyApplication.getDays;
 
 public class workViewModel extends ViewModel {
 
@@ -23,8 +26,8 @@ public class workViewModel extends ViewModel {
 
     public workViewModel() {
 
-        context= MainActivity.getContext();
-        days_of_work =MainActivity.getDays(Day.Work);
+        context= getContext();
+        days_of_work = getDays(Day.Work);
 
         mText = new MutableLiveData<>();
         mText.setValue("This is work fragment");

@@ -1,7 +1,6 @@
 package com.jnu.i_time.data;
 
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.renderscript.Allocation;
@@ -11,7 +10,9 @@ import android.renderscript.ScriptIntrinsicBlur;
 
 import androidx.annotation.RequiresApi;
 
-import com.jnu.i_time.MainActivity;
+import com.jnu.i_time.activity.MainActivity;
+
+import static com.jnu.i_time.my_application.MyApplication.getContext;
 
 public class ImageFilter {
     //图片缩放比例
@@ -36,7 +37,7 @@ public class ImageFilter {
         Bitmap outputBitmap = Bitmap.createBitmap(inputBitmap);
 
         // 创建RenderScript内核对象
-        RenderScript rs = RenderScript.create(MainActivity.getContext());
+        RenderScript rs = RenderScript.create(getContext());
         // 创建一个模糊效果的RenderScript的工具对象
         ScriptIntrinsicBlur blurScript = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));
 

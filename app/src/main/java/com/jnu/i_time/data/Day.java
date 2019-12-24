@@ -1,15 +1,8 @@
 package com.jnu.i_time.data;
 
-import android.app.AlertDialog;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
-
-import com.jnu.i_time.NewOrUpdateDayActivity;
-
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Map;
 
 public class Day implements Serializable{
     //一个目标日

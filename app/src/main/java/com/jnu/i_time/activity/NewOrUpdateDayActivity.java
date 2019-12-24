@@ -1,4 +1,4 @@
-package com.jnu.i_time;
+package com.jnu.i_time.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -38,14 +38,14 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
+import com.jnu.i_time.R;
 import com.jnu.i_time.data.Day;
 import com.jnu.i_time.data.ImageFilter;
 
 
 import java.util.Calendar;
 
-import static com.jnu.i_time.MainActivity.getActivity;
-import static com.jnu.i_time.MainActivity.makeStatusBarTransparent;
+import static com.jnu.i_time.my_application.MyApplication.*;
 
 public class NewOrUpdateDayActivity extends AppCompatActivity {
 
@@ -93,11 +93,11 @@ public class NewOrUpdateDayActivity extends AppCompatActivity {
         dayID=getIntent().getIntExtra("dayID",-1);
 
         if(dayID>=0){
-            newPicturePath=MainActivity.getIdFindDay().get(dayID).getPicturePath();
-            nameEdit.setText(MainActivity.getIdFindDay().get(dayID).getName());
-            descriptionEdit.setText(MainActivity.getIdFindDay().get(dayID).getDescription());
-            if(MainActivity.getIdFindDay().get(dayID).getPicturePath()!=null){
-                Bitmap bmp=MainActivity.getResizePhoto(MainActivity.getIdFindDay().get(dayID).getPicturePath());
+            newPicturePath= getIdFindDay().get(dayID).getPicturePath();
+            nameEdit.setText(getIdFindDay().get(dayID).getName());
+            descriptionEdit.setText(getIdFindDay().get(dayID).getDescription());
+            if(getIdFindDay().get(dayID).getPicturePath()!=null){
+                Bitmap bmp=getResizePhoto(getIdFindDay().get(dayID).getPicturePath());
                 @SuppressLint({"NewApi", "LocalSuppress"}) Bitmap blurBitmap = ImageFilter.blurBitmap(NewOrUpdateDayActivity.this, bmp, 20f);
                 picture.setImageBitmap(blurBitmap);
             }
@@ -107,10 +107,10 @@ public class NewOrUpdateDayActivity extends AppCompatActivity {
                 Bitmap blurBitmap = ImageFilter.blurBitmap(this, bmp, 20f);
                 picture.setImageBitmap(blurBitmap);
             }
-            newTarget=MainActivity.getIdFindDay().get(dayID).getTarget();
-            edit_menu.getMenu().findItem(R.id.date).setTitle(String.format("%tY年%<tm月%<td日 %<tH:%<tM",MainActivity.getIdFindDay().get(dayID).getTarget().getTime()));
-            edit_menu.getMenu().findItem(R.id.type).setTitle("Label"+MainActivity.getIdFindDay().get(dayID).getStringType());
-            edit_menu.getMenu().findItem(R.id.repeat).setTitle("Repeat"+MainActivity.getIdFindDay().get(dayID).getStringPeriod());
+            newTarget=getIdFindDay().get(dayID).getTarget();
+            edit_menu.getMenu().findItem(R.id.date).setTitle(String.format("%tY年%<tm月%<td日 %<tH:%<tM",getIdFindDay().get(dayID).getTarget().getTime()));
+            edit_menu.getMenu().findItem(R.id.type).setTitle("Label"+getIdFindDay().get(dayID).getStringType());
+            edit_menu.getMenu().findItem(R.id.repeat).setTitle("Repeat"+getIdFindDay().get(dayID).getStringPeriod());
         }
 
 
@@ -146,7 +146,7 @@ public class NewOrUpdateDayActivity extends AppCompatActivity {
                                             final Dialog dialog = new Dialog(NewOrUpdateDayActivity.this);
                                             // 设置它的ContentView
                                             // 得到myview才可以通过Id找到控件,实现dialog里的按钮的点击事件
-                                            View editView = LayoutInflater.from(MainActivity.getContext()).inflate(R.layout.edit_period_view, null);
+                                            View editView = LayoutInflater.from(NewOrUpdateDayActivity.this).inflate(R.layout.edit_period_view, null);
                                             dialog.setContentView(editView);
                                             Button dialog_btnOk = (Button) editView.findViewById(R.id.edit_period_button_ok);
                                             Button dialog_btnCancel = (Button) editView.findViewById(R.id.edit_period_button_cancel);
@@ -250,7 +250,7 @@ public class NewOrUpdateDayActivity extends AppCompatActivity {
      * @param calendar
      */
     public void showDatePickerDialog(Activity activity, int themeResId, Calendar calendar) {
-        Log.d("dattt2","hahaha");
+        //Log.d("dattt2","hahaha");
         // 直接创建一个DatePickerDialog对话框实例，并将它显示出来
         new DatePickerDialog(activity, themeResId,
                 new DatePickerDialog.OnDateSetListener() {
@@ -306,7 +306,7 @@ public class NewOrUpdateDayActivity extends AppCompatActivity {
                     Log.e("TAG", uri.toString());
                     String filePath = getRealPathFromURI(this,uri);
                     newPicturePath = filePath;//此处获取！！！
-                    Bitmap bmp=MainActivity.getResizePhoto(newPicturePath);
+                    Bitmap bmp=getResizePhoto(newPicturePath);
                     @SuppressLint({"NewApi", "LocalSuppress"}) Bitmap blurBitmap = ImageFilter.blurBitmap(NewOrUpdateDayActivity.this, bmp, 20f);
                     picture.setImageBitmap(blurBitmap);
                 } catch (Exception e) {

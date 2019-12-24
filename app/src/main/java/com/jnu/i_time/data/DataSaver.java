@@ -11,8 +11,6 @@ import java.util.Map;
 public class DataSaver {
     Context context;
     ArrayList<Day> books=new ArrayList<Day>();
-    Map<Integer,Day> map=new HashMap<Integer, Day>();
-    int all_id;
 
     public DataSaver(Context context) {
         this.context = context;
