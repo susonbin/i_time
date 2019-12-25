@@ -97,9 +97,10 @@ public class DayMessageActivity extends AppCompatActivity {
                         mess_menu.getMenu().findItem(R.id.day_time).setTitle("已经"+subString);
                     }
                     else{
-                        mess_menu.getMenu().findItem(R.id.day_time).setTitle(subString);
+                        mess_menu.getMenu().findItem(R.id.day_time).setTitle("还有"+subString);
                     }
                     super.handleMessage (msg);
+
                 }
                 else finish();
             }

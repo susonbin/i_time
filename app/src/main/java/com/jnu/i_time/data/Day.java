@@ -3,6 +3,7 @@ package com.jnu.i_time.data;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 
 public class Day implements Serializable{
     //一个目标日
@@ -121,6 +122,8 @@ public class Day implements Serializable{
         else dayFinal=false;
 
         long sub=Math.abs(time-nTime);
+        calendar.setTimeZone(TimeZone.getTimeZone("GMT"));//此处为格林威治时区，方便后面与1970-1-1 0：0：0相减
+
         calendar.setTime(new Date(sub));
         return calendar;
     }

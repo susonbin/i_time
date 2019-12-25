@@ -42,6 +42,11 @@
                     android:background="#00000000"
                     android:fitsSystemWindows="true"
                     android:minHeight="?attr/actionBarSize"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0"
                     app:navigationIcon="@drawable/ic_arrow_back_white_24dp"
                     app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                     app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
@@ -49,8 +54,11 @@
 
                 <TextView
                     android:id="@+id/name"
-                    android:layout_width="60dp"
+                    android:layout_width="0dp"
                     android:layout_height="30dp"
+                    android:layout_marginStart="50dp"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginTop="80dp"
                     android:layout_marginBottom="168dp"
                     android:gravity="center|left"
                     android:text="Name"
@@ -58,13 +66,18 @@
                     android:textSize="18sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.159"
-                    app:layout_constraintStart_toStartOf="parent" />
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <EditText
                     android:id="@+id/name_editText"
-                    android:layout_width="325dp"
-                    android:layout_height="47dp"
+                    android:layout_width="0dp"
+                    android:layout_height="45dp"
+                    android:layout_marginStart="50dp"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginEnd="40dp"
+                    android:layout_marginRight="40dp"
                     android:ems="10"
                     android:hint="  Birthday,festival,exam..."
                     android:inputType="textPersonName"
@@ -79,8 +92,10 @@
 
                 <TextView
                     android:id="@+id/description"
-                    android:layout_width="108dp"
-                    android:layout_height="29dp"
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="50dp"
+                    android:layout_marginLeft="50dp"
                     android:gravity="center|left"
                     android:text="Description"
                     android:textColor="@android:color/white"
@@ -94,8 +109,12 @@
 
                 <EditText
                     android:id="@+id/description_editText"
-                    android:layout_width="325dp"
+                    android:layout_width="0dp"
                     android:layout_height="45dp"
+                    android:layout_marginStart="50dp"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginEnd="40dp"
+                    android:layout_marginRight="40dp"
                     android:layout_marginBottom="16dp"
                     android:ems="10"
                     android:hint="  Note,goals,motto..."
@@ -104,34 +123,44 @@
                     android:textColorHint="@color/mr_dynamic_dialog_icon_dark"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.651"
+                    app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/name_editText"
-                    app:layout_constraintVertical_bias="0.766" />
+                    app:layout_constraintVertical_bias="0.761" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </FrameLayout>
 
     </LinearLayout>
 
-    <FrameLayout
-        android:layout_width="378dp"
-        android:layout_height="434dp"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginRight="15dp"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
-        <com.google.android.material.navigation.NavigationView
-            android:id="@+id/edit_menu"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:clickable="true"
-            app:menu="@menu/activity_new_update_day_menu">
+            android:layout_gravity="center_horizontal">
 
-        </com.google.android.material.navigation.NavigationView>
-    </FrameLayout>
+            <com.google.android.material.navigation.NavigationView
+                android:id="@+id/edit_menu"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clickable="true"
+                app:menu="@menu/activity_new_update_day_menu">
+
+            </com.google.android.material.navigation.NavigationView>
+        </FrameLayout>
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
